@@ -74,22 +74,22 @@ class _PostPageState extends State<PostPage> {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(children: [
-                  Container(
-                    height: 175,
-                    width: 400,
-                    child:webView.WebView(
-                      javascriptMode: webView.JavascriptMode.unrestricted,
-                      initialUrl: "https://xn--b1aebaqhbqjfgu9g5bk.xn--p1ai/code-ads.html",
-                      navigationDelegate: (webView.NavigationRequest request) {
-                        if (request.url.startsWith("https://xn--b1aebaqhbqjfgu9g5bk.xn--p1ai/")) {
-                          return webView.NavigationDecision.navigate;
-                        } else {
-                          ytLauncher(request.url);
-                          return webView.NavigationDecision.prevent;
-                        }
-                      },
-                    ),
-                  ),
+                  // Container(
+                  //   height: 175,
+                  //   width: 400,
+                  //   child:webView.WebView(
+                  //     javascriptMode: webView.JavascriptMode.unrestricted,
+                  //     initialUrl: "https://xn--b1aebaqhbqjfgu9g5bk.xn--p1ai/code-ads.html",
+                  //     navigationDelegate: (webView.NavigationRequest request) {
+                  //       if (request.url.startsWith("https://xn--b1aebaqhbqjfgu9g5bk.xn--p1ai/")) {
+                  //         return webView.NavigationDecision.navigate;
+                  //       } else {
+                  //         ytLauncher(request.url);
+                  //         return webView.NavigationDecision.prevent;
+                  //       }
+                  //     },
+                  //   ),
+                  // ),
                   SizedBox(height: 5,),
                   SingleChildScrollView(
                     child: SingleChildScrollView(
