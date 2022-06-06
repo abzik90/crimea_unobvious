@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'bottom.dart';
 
 class TagsListPage extends StatefulWidget {
   final int tagNumber;

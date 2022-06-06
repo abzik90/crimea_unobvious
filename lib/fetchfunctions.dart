@@ -14,7 +14,7 @@ Future fetchWpJson(url) async {
   final response = await http.get(url,headers: {
     "Accept":"application/json"
   });
-  var convertedDataToJson=jsonDecode(response.body);
+  var convertedDataToJson = jsonDecode(response.body);
   return convertedDataToJson;
 }
 

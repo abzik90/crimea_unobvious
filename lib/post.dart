@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_html/flutter_html.dart';
+
 import 'ytLauncher.dart';
 import 'bottom.dart';
 import 'fetchfunctions.dart';
 import 'preload.dart';
 
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:webview_flutter/webview_flutter.dart' as webView;
+
 class PostPage extends StatefulWidget {
-  final String postID,postURL,imageURL;
-  PostPage({this.postID,this.postURL,this.imageURL});
+  final String postID,postURL;
+  PostPage({this.postID,this.postURL});
 
   @override
   _PostPageState createState() => _PostPageState();
@@ -26,66 +29,38 @@ class _PostPageState extends State<PostPage> {
                   padding:const EdgeInsets.all(12),
                   child:Text(
                     "Просмотр Видео",
-                    style:TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold,),
+                    style:TextStyle(fontSize: 30.0,fontFamily:"Helvetica",fontWeight: FontWeight.bold,),
                   )
               ),
             ),
-            FutureBuilder(
-              future: getYT(widget.postURL),
-              builder: (context,snapshot){
-                if(snapshot.hasData){
-                      return GestureDetector(
-                      onTap: (){ytLauncher(snapshot.data);},
-                      child:Card(
-                       child:Padding(
-                         padding: const EdgeInsets.fromLTRB(0.0,50.0,0.0,0.0),
-                         child: Column(
-                            children: [
-                              FutureBuilder(
-                                future: fetchWpJson(widget.imageURL),
-                                builder: (context,snapshot){
-                                  if(snapshot.hasData){
-                                    return Stack(
-                                      children: <Widget>[
-                                        Container(
-                                            // height:230,
-                                            decoration: new BoxDecoration(color: Colors.white),
-                                            alignment: Alignment.center,
-                                            child: CachedNetworkImage(
-                                              imageUrl: (snapshot.data["guid"]["rendered"]!="") ? snapshot.data["guid"]["rendered"] : snapshot.data["source_url"],
-                                              placeholder: (context, url) => Center(child: PreloadWidget()),
-                                              errorWidget: (context, url, error) => Icon(Icons.error),
-                                            )
-                                        ),
-                                        Positioned(
-                                          bottom: 50, right: 125, //give the values according to your requirement
-                                          child: Icon(
-                                              Icons.play_circle_fill_rounded,
-                                              size:120
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  return Center(
-                                    child:PreloadWidget(),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                       ),
+          FutureBuilder(
+            future: getYT(widget.postURL),
+            builder: (context,snapshot){
+            if(snapshot.hasData){
+                print(snapshot.data.toString());
+                return Container(
+                  width: 400,
+                  height:250,
+                  child:Padding(
+                   padding: const EdgeInsets.fromLTRB(0.0,50.0,0.0,0.0),
+                   child: InAppWebView(
+                     initialUrl: snapshot.data.toString(),
+                     initialHeaders: {},
+                     initialOptions: InAppWebViewGroupOptions(
+                         crossPlatform: InAppWebViewOptions(
+                           debuggingEnabled: true,
+                         )),
 
-                      ),
-                      );
-                    }else if(snapshot.hasError){
-                      print(snapshot.error);
-                      return Center(child: PreloadWidget());
-                    }else{
-                      return Center(child: PreloadWidget());
-                    }
+                   ),
+                 )
+                );
+            }else if(snapshot.hasError){
+                print(snapshot.error);
+                return Center(child: PreloadWidget());
+            }else{
+                return Center(child: PreloadWidget());
               }
-            ),
+            }),
           FutureBuilder(
             future: fetchWpJson(jsonPostURL),
             builder: (context,snapshot){
@@ -94,11 +69,27 @@ class _PostPageState extends State<PostPage> {
               String article=snapshot.data['content']['rendered'];
               int occ = article.indexOf("<p>"),last=article.length;
               print(occ);
-              article = article.substring(occ,last);
-              // print(article);
+              if(occ != 0 && last != 0)
+                article = article.substring(occ,last);
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(children: [
+                  Container(
+                    height: 175,
+                    width: 400,
+                    child:webView.WebView(
+                      javascriptMode: webView.JavascriptMode.unrestricted,
+                      initialUrl: "https://xn--b1aebaqhbqjfgu9g5bk.xn--p1ai/code-ads.html",
+                      navigationDelegate: (webView.NavigationRequest request) {
+                        if (request.url.startsWith("https://xn--b1aebaqhbqjfgu9g5bk.xn--p1ai/")) {
+                          return webView.NavigationDecision.navigate;
+                        } else {
+                          ytLauncher(request.url);
+                          return webView.NavigationDecision.prevent;
+                        }
+                      },
+                    ),
+                  ),
                   SizedBox(height: 5,),
                   SingleChildScrollView(
                     child: SingleChildScrollView(
@@ -107,7 +98,9 @@ class _PostPageState extends State<PostPage> {
                       ),
                     ),
                   ),
+
                   SizedBox(height: 20,),
+
                 ],),
               );
             }

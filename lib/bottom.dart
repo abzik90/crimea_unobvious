@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'about.dart';
 import 'search.dart';
 import 'tags.dart';
-import 'main.dart';
+
 
 class BottomBarCustom extends StatefulWidget {
    @override

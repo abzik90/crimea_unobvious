@@ -20,14 +20,14 @@ class FirstAboutPage extends StatelessWidget {
                   'year': DateTime.now().year.toString(),
                   'author': "bizhigitn",
                 },
-                title: Text('О приложении'),
+                title: Text('О приложении',style: new TextStyle(fontFamily: "Helvetica"),),
                 applicationVersion: 'Версия {{ version }}, Билд: {{ buildNumber }}',
                 applicationDescription: Text(
                   description,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18,fontFamily: "Helvetica"),
                   // textAlign: TextAlign.justify,
                 ),
-                applicationIcon: Image.asset("assets/logo.jpg"),
+                applicationIcon: Image.asset("assets/logo.png"),
                 applicationLegalese: 'Copyright © {{ author }}, {{ year }}',
                   children: <Widget>[
                     Row(
@@ -45,6 +45,16 @@ class FirstAboutPage extends StatelessWidget {
                         ),
                         IconButton(
                           iconSize: 28.0,
+                          icon: FaIcon(FontAwesomeIcons.youtube),
+                          onPressed: () => {ytLauncher("https://www.youtube.com/channel/UCjJcZjGW4DSiwGYPu9TloVQ?view_as=subscriber")},
+                        ),
+                        IconButton(
+                          iconSize: 28.0,
+                          icon: FaIcon(FontAwesomeIcons.tiktok),
+                          onPressed: () => {ytLauncher("https://www.tiktok.com/@crimean.stories")},
+                        ),
+                        IconButton(
+                          iconSize: 28.0,
                           icon: FaIcon(FontAwesomeIcons.telegram),
                           onPressed: () => {ytLauncher("https://t.me/crimeaputevoditel")},
                         ),
@@ -58,16 +68,7 @@ class FirstAboutPage extends StatelessWidget {
                           icon: FaIcon(FontAwesomeIcons.odnoklassniki),
                           onPressed: () => {ytLauncher("https://ok.ru/krymneoch")},
                         ),
-                        IconButton(
-                          iconSize: 28.0,
-                          icon: FaIcon(FontAwesomeIcons.tiktok),
-                          onPressed: () => {ytLauncher("https://www.tiktok.com/@crimeaputevoditel")},
-                        ),
-                        IconButton(
-                          iconSize: 28.0,
-                          icon: FaIcon(FontAwesomeIcons.youtube),
-                          onPressed: () => {ytLauncher("https://www.youtube.com/channel/UCjJcZjGW4DSiwGYPu9TloVQ?view_as=subscriber")},
-                        ),
+
                       ],
                     ),
 

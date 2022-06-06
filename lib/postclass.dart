@@ -16,13 +16,11 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
-    // print(widget.imageURL);
     return GestureDetector(
       onTap: (){
         Navigator.push(context,MaterialPageRoute(builder:(context)=>PostPage(
             postID: widget.postID,
-            imageURL:widget.imageURL,
-            postURL:widget.postURL
+            postURL: widget.postURL
            )
           )
         );
@@ -54,11 +52,11 @@ class _PostCardState extends State<PostCard> {
               ),
               Text(
                 widget.title.replaceAll("&",""),
-                style:TextStyle(fontFamily:"San Francisco",fontWeight: FontWeight.w700,fontSize: 18),
+                style:TextStyle(fontFamily:"Helvetica",fontWeight: FontWeight.w600,fontSize: 18),
               ),
               SizedBox(height: 5,),
               SingleChildScrollView(
-                child: Text(widget.description.replaceAll("<p>", "").replaceAll("</p>", "").replaceAll("[&hellip;]", "..."),style:TextStyle(fontFamily:"San Francisco"),),
+                child: Text(widget.description.replaceAll("<p>", "").replaceAll("</p>", "").replaceAll("[&hellip;]", "..."),style:TextStyle(fontFamily:"Helvetica"),),
               ),
               SizedBox(height: 20,),
               //Text(),

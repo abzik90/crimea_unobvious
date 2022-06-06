@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'globals.dart' as globals;
 import 'menu.dart';
 import 'recent.dart';
@@ -9,7 +8,7 @@ import 'bottom.dart';
 import 'fetchfunctions.dart';
 import 'post.dart';
 import 'welcome.dart';
-
+import 'apiKey.dart' as apiKey;
 
 int initScreen;
 
@@ -35,7 +34,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static final String oneSignalAppId="c1c23336-85ba-4802-83ce-3b3f88241814";
+  static final String oneSignalAppId=apiKey.oneSignalAppId;
 
   @override
   void initState(){
@@ -44,52 +43,31 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
+    print("hi");
     return MaterialApp(
       routes: {
         '/welcome': (context) => WelcomePage(),
       },
-      initialRoute: initScreen == 0 || initScreen == null ? '/welcome':'/',
+      initialRoute: initScreen != 667 ? '/welcome':'/',
       navigatorKey: globals.appNavigator,
       home:Scaffold(
 
-        body:ListView(
-              children:<Widget>[
-                SizedBox(
-                    height: 256,
-                    child:Image.asset(
-                      'assets/logoMenu.png',
-                      fit: BoxFit.contain,
-                      height: 256,
-                    )
-                ),
-                Text("Новые выпуски",
-                  textAlign:TextAlign.center,
-                  style: new TextStyle(fontSize: 23.0,fontFamily: "San Francisco",fontWeight: FontWeight.w700),),
-                RecentVideos(),
-                Text("Выберите направление",
-                  textAlign:TextAlign.center,
-                  style: new TextStyle(fontSize: 30.0,fontFamily: "San Francisco",fontWeight: FontWeight.w700),),
-                MenuPart(),
+          body:ListView(
+            children:<Widget>[
+              Text("Новые выпуски",
+                textAlign:TextAlign.center,
+                style: new TextStyle(fontSize: 30.0,fontFamily: "Helvetica",fontWeight: FontWeight.w600),),
+              RecentVideos(),
+              Text("Выберите направление",
+                textAlign:TextAlign.center,
+                style: new TextStyle(fontSize: 30.0,fontFamily: "Helvetica",fontWeight: FontWeight.w600),),
+              MenuPart(),
 
-
-              ],
-        ),
-        bottomNavigationBar:BottomBarCustom()
+            ],
+          ),
+          bottomNavigationBar:BottomBarCustom()
       ),
     );
-  }
-  Future<int> getCounter() async{
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    return prefs.getInt("counter");
-  }
-  Future<int> incrementCounter() async{
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    int counter=prefs.getInt("counter");
-    if(counter!=null)
-      prefs.setInt("counter",(counter++));
-    else
-      prefs.setInt("counter",(0));
-    return prefs.getInt("counter");
   }
 
   Future<void> initPlatformState() async{
@@ -104,10 +82,9 @@ class _MyAppState extends State<MyApp> {
         String url=wpPost["link"];
         globals.appNavigator.currentState.push(MaterialPageRoute(builder: (context) => PostPage(
             postID: postId,
-            imageURL:mediaUrl,
             postURL:url
-            )
-          )
+        )
+        )
         );
       }
     });

@@ -40,7 +40,7 @@ class DirectionsPage extends StatelessWidget {
                     padding:const EdgeInsets.all(12),
                     child:Text(
                       rusText+" \n(нажмите для просмотра)",
-                      style:TextStyle(fontSize: 25.0,fontFamily:"San Francisco",),
+                      style:TextStyle(fontSize: 25.0,fontFamily:"Helvetica",),
                     )
                 ),
             ),
@@ -50,7 +50,7 @@ class DirectionsPage extends StatelessWidget {
                 builder:(context,snapshot){
                   if(snapshot.hasData){
                     if(snapshot.data.length==0)
-                      return Center(child: Text("К сожалению постов нету..."),);
+                      return Center(child: Text("К сожалению постов нету...",style: new TextStyle(fontFamily: "Helvetica"),),);
                     return Expanded(
                       child: RefreshIndicator(
                         onRefresh: () async {
@@ -67,8 +67,6 @@ class DirectionsPage extends StatelessWidget {
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context,int index){
                             Map wpPost=snapshot.data[index];
-                            // print("DirectionsImgURL:"+wpPost["_links"]["wp:featuredmedia"][0]["href"]);
-                            print(wpPost["link"]);
                             return PostCard(
                                 postID: wpPost["id"].toString(),
                                 imageURL: wpPost["_links"]["wp:featuredmedia"][0]["href"],

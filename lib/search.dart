@@ -51,27 +51,32 @@ class _SearchPageState extends State<SearchPage> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context,int index){
                         Map wpPost=snapshot.data[index];
-                        return FutureBuilder(
-                          future:fetchWpMediaUrl(wpPost["_links"]["self"][0]["href"]),
-                          builder: (context,snapshotMedia){
-                            if(snapshotMedia.hasData){
-                              return Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,0,10),
-                                child: PostCard(
-                                  postID: wpPost["id"].toString(),
-                                  imageURL:snapshotMedia.data.toString(),
-                                  postURL: wpPost["url"],
-                                  title: wpPost["title"].replaceAll("&#8212;","").replaceAll("#171;","").replaceAll("&#187;","").replaceAll("&#8230","").replaceAll("&nbsp;",""),
-                                  description: "\n",
-                                  content: "\n",
-                                ),
-                              );
-                            }else{
-                              return Center(child: CircularProgressIndicator(),);
-                            }
-                          }
-                        );
-                        //return Text(wpPost["title"]["rendered"]);
+                          return FutureBuilder(
+                              future:fetchWpMediaUrl(wpPost["_links"]["self"][0]["href"]),
+                              builder: (context,snapshotMedia){
+                                if(snapshotMedia.hasData){
+                                  if(snapshotMedia.data.toString() != "https://xn--b1aebaqhbqjfgu9g5bk.xn--p1ai/wp-json/wp/v2/media/0"){
+                                    return Padding(
+                                      padding: const EdgeInsets.fromLTRB(0,0,0,10),
+                                      child: PostCard(
+                                        postID: wpPost["id"].toString(),
+                                        imageURL:snapshotMedia.data.toString(),
+                                        postURL: wpPost["url"],
+                                        title: wpPost["title"].replaceAll("&#8212;","").replaceAll("#171;","").replaceAll("&#187;","").replaceAll("&#8230","").replaceAll("&nbsp;",""),
+                                        description: "\n",
+                                        content: "\n",
+                                      ),
+                                    );
+                                  }
+                                  else{
+                                    return Container();
+                                  }
+                                }else{
+                                  return Center(child: CircularProgressIndicator(),);
+                                }
+                              }
+                          );
+
                       },
                     ),
                   );
